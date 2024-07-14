@@ -1,6 +1,9 @@
 "use client";
+
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
+import { HexColorPicker } from "react-colorful";
 
 // Components
 import { Input, Textarea } from "@nextui-org/input";
@@ -13,6 +16,8 @@ export default function ModalForm({
   setBody,
   buttonText,
   setButtonText,
+  submitColor,
+  setSubmitColor,
 }: {
   title: string;
   setTitle: (title: string) => void;
@@ -20,6 +25,8 @@ export default function ModalForm({
   setBody: (body: string) => void;
   buttonText: string;
   setButtonText: (buttonText: string) => void;
+  submitColor: string;
+  setSubmitColor: (color: string) => void;
 }) {
   const router = useRouter();
 
@@ -27,6 +34,7 @@ export default function ModalForm({
     setTitle("");
     setBody("");
     setButtonText("");
+    setSubmitColor("#000000");
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -98,6 +106,13 @@ export default function ModalForm({
       </div>
       {/* This can be separate box below this and 2 submit buttons */}
       <h3 className="text-lg font-medium text-gray-900 mb-6">Styling</h3>
+      <div>
+        <label htmlFor="submitColor" className="block text-sm font-medium text-gray-700 mb-2">
+          Submit Button Color
+        </label>
+        <HexColorPicker color={submitColor} onChange={setSubmitColor} />
+        <Input type="text" value={submitColor} onChange={(e) => setSubmitColor(e.target.value)} className="mt-2" />
+      </div>
       <Button type="submit" color="secondary" className="mt-6">
         Submit Modal
       </Button>
