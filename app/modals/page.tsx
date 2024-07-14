@@ -1,6 +1,5 @@
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
-import HeaderTwo from "@/components/HeaderTwo";
 import ModalEditor from "./components/ModalEditor";
 
 export default async function Page() {
@@ -17,7 +16,7 @@ export default async function Page() {
 
   return (
     <>
-      <HeaderTwo />
+      {/* <HeaderTwo /> */}
       <div className="-mt-24 pb-8">
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
           <h1 className="sr-only">Page title</h1>

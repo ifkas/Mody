@@ -1,4 +1,8 @@
+"use client";
 import React from "react";
+import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@nextui-org/dropdown";
+import { Avatar } from "@nextui-org/avatar";
+import Link from "next/link";
 
 const HeaderTwo: React.FC = () => {
   return (
@@ -27,23 +31,31 @@ const HeaderTwo: React.FC = () => {
             {/* Profile dropdown */}
             <div className="relative ml-4 flex-shrink-0">
               <div>
-                <button
-                  type="button"
-                  className="relative flex rounded-full bg-white text-sm ring-2 ring-white ring-opacity-20 focus:outline-none focus:ring-opacity-100"
-                  id="user-menu-button"
-                  aria-expanded="false"
-                  aria-haspopup="true"
-                >
-                  <span className="absolute -inset-1.5"></span>
-                  <span className="sr-only">Open user menu</span>
-                  <img
-                    className="h-8 w-8 rounded-full"
-                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                    alt=""
-                  />
-                </button>
+                <Dropdown>
+                  <DropdownTrigger>
+                    {/* <Button variant="bordered">Open Menu</Button> */}
+                    <button
+                      type="button"
+                      className="relative flex rounded-full bg-white text-sm ring-2 ring-white ring-opacity-20 focus:outline-none focus:ring-opacity-100"
+                      id="user-menu-button"
+                      aria-expanded="false"
+                      aria-haspopup="true"
+                    >
+                      <span className="absolute -inset-1.5"></span>
+                      <span className="sr-only">Open user menu</span>
+                      <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026704d" />
+                    </button>
+                  </DropdownTrigger>
+                  <DropdownMenu aria-label="Dynamic Actions">
+                    <DropdownItem key="new">New file</DropdownItem>
+                    <DropdownItem key="copy">Copy link</DropdownItem>
+                    <DropdownItem key="edit">Edit file</DropdownItem>
+                    <DropdownItem key="delete" className="text-danger" color="danger">
+                      Delete file
+                    </DropdownItem>
+                  </DropdownMenu>
+                </Dropdown>
               </div>
-              {/* Dropdown menu */}
             </div>
           </div>
 
@@ -57,12 +69,22 @@ const HeaderTwo: React.FC = () => {
         </div>
         <div className="hidden border-t border-white border-opacity-20 py-5 lg:block">
           <div className="grid grid-cols-3 items-center gap-8">
-            <div className="col-span-2">{/* Navigation */}</div>
+            <div className="text-white">Hi username, such a lovely day to create a modal!</div>
+            <div className="col-span-2 text-right">
+              <Link href="/" className="rounded-md bg-white bg-opacity-0 px-3 py-2 text-sm font-medium text-white hover:bg-opacity-10">
+                Home
+              </Link>
+              <Link
+                href="/settings"
+                className="rounded-md bg-white bg-opacity-0 px-3 py-2 text-sm font-medium text-white hover:bg-opacity-10"
+              >
+                Settings
+              </Link>
+            </div>
             <div>{/* Mobile search */}</div>
           </div>
         </div>
       </div>
-
       {/* Mobile menu */}
     </header>
   );

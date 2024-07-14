@@ -96,6 +96,8 @@ export default function ModalForm({
         <label htmlFor="buttonText">Button Text</label>
         <Input isRequired type="text" variant="faded" size="sm" label="button text" value={buttonText} onValueChange={setButtonText} />
       </div>
+      {/* This can be separate box below this and 2 submit buttons */}
+      <h3 className="text-lg font-medium text-gray-900 mb-6">Styling</h3>
       <Button type="submit" color="secondary" className="mt-6">
         Submit Modal
       </Button>

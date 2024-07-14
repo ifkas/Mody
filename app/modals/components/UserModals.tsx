@@ -21,7 +21,8 @@ export default function UserModals() {
       }
     }
     fetchModals();
-  }, [modals]);
+    // }, [modals]);
+  }, []);
 
   return (
     <div>
