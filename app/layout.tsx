@@ -1,5 +1,7 @@
 import "./globals.css";
+import Header from "@/components/Header";
 import HeaderTwo from "@/components/HeaderTwo";
+import { createClient } from "@/utils/supabase/server";
 
 const defaultUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000";
 
@@ -9,14 +11,20 @@ export const metadata = {
   description: "The fastest way to build optimized modals for your app or website",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = (await supabase.auth.getUser()) || { data: { user: null } };
+
   return (
-    <html lang="en" className="h-full bg-gray-100 text-foreground">
+    <html lang="en" className="bg-gray-100 text-foreground">
       <body className="h-full">
         <main className="min-h-full">
-          {" "}
-          <HeaderTwo />
-          {children}
+          {user ? <HeaderTwo /> : <Header />}
+          <div className="-mt-24 pb-8">
+            <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">{children}</div>
+          </div>
         </main>
       </body>
     </html>

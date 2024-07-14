@@ -2,9 +2,28 @@
 import React from "react";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@nextui-org/dropdown";
 import { Avatar } from "@nextui-org/avatar";
+import { useRouter } from "next/navigation";
+import { User } from "@supabase/supabase-js";
+import { createClient } from "@/utils/supabase/client";
 import Link from "next/link";
 
-const HeaderTwo: React.FC = () => {
+interface HeaderTwoProps {
+  user?: User;
+}
+
+const HeaderTwo: React.FC<{ user: any }> = ({ user }) => {
+  const router = useRouter();
+  const supabase = createClient();
+
+  const handleLogout = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      console.error("Error logging out:", error.message);
+    } else {
+      router.push("/");
+    }
+  };
+
   return (
     <header className="bg-indigo-600 pb-24">
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
@@ -47,11 +66,11 @@ const HeaderTwo: React.FC = () => {
                     </button>
                   </DropdownTrigger>
                   <DropdownMenu aria-label="Dynamic Actions">
-                    <DropdownItem key="new">New file</DropdownItem>
-                    <DropdownItem key="copy">Copy link</DropdownItem>
-                    <DropdownItem key="edit">Edit file</DropdownItem>
-                    <DropdownItem key="delete" className="text-danger" color="danger">
-                      Delete file
+                    <DropdownItem key="edit" href="/settings">
+                      Your settings
+                    </DropdownItem>
+                    <DropdownItem key="logout" color="danger" onPress={handleLogout}>
+                      Logout
                     </DropdownItem>
                   </DropdownMenu>
                 </Dropdown>
@@ -69,9 +88,15 @@ const HeaderTwo: React.FC = () => {
         </div>
         <div className="hidden border-t border-white border-opacity-20 py-5 lg:block">
           <div className="grid grid-cols-3 items-center gap-8">
-            <div className="text-white">Hi username, such a lovely day to create a modal!</div>
+            <div className="text-white">
+              {" "}
+              Hi {user?.user_metadata?.name || user?.email || "there"}, such a lovely day to create a modal!
+            </div>
             <div className="col-span-2 text-right">
-              <Link href="/" className="rounded-md bg-white bg-opacity-0 px-3 py-2 text-sm font-medium text-white hover:bg-opacity-10">
+              <Link
+                href="/modals"
+                className="rounded-md bg-white bg-opacity-0 px-3 py-2 text-sm font-medium text-white hover:bg-opacity-10"
+              >
                 Home
               </Link>
               <Link

@@ -7,7 +7,7 @@ import { Button } from "@nextui-org/button";
 
 export default function SettingsForm({ user }) {
   const [name, setName] = useState(user.user_metadata.name || "");
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(user.user_metadata.email || "");
   const [loading, setLoading] = useState(false);
   const supabase = createClient();
 
@@ -16,8 +16,7 @@ export default function SettingsForm({ user }) {
     setLoading(true);
 
     const { error } = await supabase.auth.updateUser({
-      email: email,
-      data: { name: name },
+      data: { email: email, name: name },
     });
 
     if (error) {
@@ -37,7 +36,7 @@ export default function SettingsForm({ user }) {
       <div>
         <Input label="Name" type="text" value={name} onChange={(e) => setName(e.target.value)} required />
       </div>
-      <Button type="submit" color="primary" disabled={loading}>
+      <Button type="submit" color="primary" isLoading={loading}>
         {loading ? "Updating..." : "Update Settings"}
       </Button>
     </form>
