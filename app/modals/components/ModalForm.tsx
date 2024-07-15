@@ -8,6 +8,7 @@ import { HexColorPicker } from "react-colorful";
 // Components
 import { Input, Textarea } from "@nextui-org/input";
 import { Button } from "@nextui-org/button";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@nextui-org/modal";
 
 export default function ModalForm({
   title,
@@ -29,6 +30,8 @@ export default function ModalForm({
   setSubmitColor: (color: string) => void;
 }) {
   const router = useRouter();
+  const [isOpen, setIsOpen] = useState(false);
+  const [modalContent, setModalContent] = useState({ title: "", body: "", backdrop: "", scriptTag: "" });
 
   const clearForm = () => {
     setTitle("");
@@ -53,14 +56,26 @@ export default function ModalForm({
     const { count, error: countError } = await supabase.from("modals").select("id", { count: "exact" }).eq("user_id", user.id);
 
     if (count !== null && count >= 3) {
-      alert("You've reached the maximum limit of 3 modals");
+      setModalContent({
+        title: "Limit Reached",
+        backdrop: "opaque",
+        body: "You've reached the maximum limit of 3 modals.",
+        scriptTag: "",
+      });
+      setIsOpen(true);
       return;
     }
 
     const { data: accessTokenData, error: accessTokenError } = await supabase.rpc("generate_uuid");
 
     if (accessTokenError) {
-      alert("Error generating access token");
+      setModalContent({
+        title: "Error",
+        backdrop: "opaque",
+        body: "Error generating access token",
+        scriptTag: "",
+      });
+      setIsOpen(true);
       return;
     }
 
@@ -68,54 +83,90 @@ export default function ModalForm({
 
     const { data, error } = await supabase
       .from("modals")
-      .insert({ title, body, button: buttonText, user_id: user.id, access_token: accessToken })
+      .insert({ title, body, button: buttonText, user_id: user.id, access_token: accessToken, button_color: submitColor })
       .select()
       .single();
 
     if (error) {
-      alert("Error submitting modal");
+      setModalContent({
+        title: "Error",
+        backdrop: "opaque",
+        body: "Error submitting modal",
+        scriptTag: "",
+      });
     } else {
       const modalId = data.id;
       const scriptTag = `<script src="${process.env.NEXT_PUBLIC_SITE_URL}/api/modal/${modalId}?token=${accessToken}"></script>`;
-      alert("Modal submitted successfully. Script tag: " + scriptTag);
+      setModalContent({
+        title: "Success",
+        backdrop: "blur",
+        body: "Modal submitted successfully.",
+        scriptTag: scriptTag,
+      });
       clearForm();
     }
+    setIsOpen(true);
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="title">Title</label>
-        <Input isRequired type="text" variant="faded" size="sm" label="Title" value={title} onValueChange={setTitle} />
-      </div>
-      <div className="my-4">
-        <label htmlFor="body">Body</label>
-        <Textarea
-          variant="faded"
-          size="lg"
-          label="Description"
-          placeholder="Enter your description"
-          className="w-full"
-          value={body}
-          onValueChange={setBody}
-        />
-      </div>
-      <div>
-        <label htmlFor="buttonText">Button Text</label>
-        <Input isRequired type="text" variant="faded" size="sm" label="button text" value={buttonText} onValueChange={setButtonText} />
-      </div>
-      {/* This can be separate box below this and 2 submit buttons */}
-      <h3 className="text-lg font-medium text-gray-900 mb-6">Styling</h3>
-      <div>
-        <label htmlFor="submitColor" className="block text-sm font-medium text-gray-700 mb-2">
-          Submit Button Color
-        </label>
-        <HexColorPicker color={submitColor} onChange={setSubmitColor} />
-        <Input type="text" value={submitColor} onChange={(e) => setSubmitColor(e.target.value)} className="mt-2" />
-      </div>
-      <Button type="submit" color="secondary" className="mt-6">
-        Submit Modal
-      </Button>
-    </form>
+    <>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor="title">Title</label>
+          <Input isRequired type="text" variant="faded" size="sm" label="Title" value={title} onValueChange={setTitle} />
+        </div>
+        <div className="my-4">
+          <label htmlFor="body">Body</label>
+          <Textarea
+            variant="faded"
+            size="lg"
+            label="Description"
+            placeholder="Enter your description"
+            className="w-full"
+            value={body}
+            onValueChange={setBody}
+          />
+        </div>
+        <div>
+          <label htmlFor="buttonText">Button Text</label>
+          <Input isRequired type="text" variant="faded" size="sm" label="button text" value={buttonText} onValueChange={setButtonText} />
+        </div>
+        <h3 className="text-lg font-medium text-gray-900 mb-6">Styling</h3>
+        <div>
+          <label htmlFor="submitColor" className="block text-sm font-medium text-gray-700 mb-2">
+            Submit Button Color
+          </label>
+          <HexColorPicker color={submitColor} onChange={setSubmitColor} />
+          <Input type="text" value={submitColor} onChange={(e) => setSubmitColor(e.target.value)} className="mt-2" />
+        </div>
+        <Button type="submit" color="secondary" className="mt-6">
+          Submit Modal
+        </Button>
+      </form>
+
+      <Modal
+        backdrop={modalContent.backdrop as "opaque" | "blur" | "transparent" | undefined}
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+      >
+        <ModalContent>
+          <ModalHeader>{modalContent.title}</ModalHeader>
+          <ModalBody>
+            <p>{modalContent.body}</p>
+            {modalContent.scriptTag && (
+              <div>
+                <p>Here's your script tag:</p>
+                <code>{modalContent.scriptTag}</code>
+              </div>
+            )}
+          </ModalBody>
+          <ModalFooter>
+            <Button color="primary" onPress={() => setIsOpen(false)}>
+              Close
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
   );
 }
