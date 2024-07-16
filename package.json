@@ -8,6 +8,7 @@
   "dependencies": {
     "@nextui-org/avatar": "^2.0.30",
     "@nextui-org/button": "^2.0.34",
+    "@nextui-org/card": "^2.0.31",
     "@nextui-org/code": "^2.0.29",
     "@nextui-org/dropdown": "^2.1.26",
     "@nextui-org/input": "^2.2.2",

@@ -112,7 +112,7 @@ export default function ModalEditor() {
                 </div>
               </div>
               <h3 className="text-lg font-medium text-gray-900 mt-10 mb-6">Your modals</h3>
-              {/* <UserModals /> */}
+              <UserModals />
             </div>
           </div>
         </section>
