@@ -7,7 +7,7 @@ import { createClient } from "@/utils/supabase/client";
 import { Card, CardHeader, CardBody, CardFooter } from "@nextui-org/card";
 import { Image } from "next/image";
 import Link from "next/link";
-import { Code } from "@nextui-org/code";
+import { Snippet } from "@nextui-org/snippet";
 
 export default function UserModals() {
   const [modals, setModals] = useState<{ id: any; title: string; body: string; access_token: string }[]>([]);
@@ -55,10 +55,13 @@ export default function UserModals() {
               {/* <Link isExternal showAnchorIcon href="https://github.com/nextui-org/nextui">
               Visit source code on GitHub.
             </Link> */}
-              <Code color="primary" size="sm" className="whitespace-pre-wrap">
-                {" "}
-                {`<script src="${process.env.NEXT_PUBLIC_SITE_URL}/api/modal/${modal.id}?token=${modal.access_token}"></script>`}S{" "}
-              </Code>
+              <div className="flex-wrap ">
+                <Snippet hideSymbol>
+                  <pre className="text-sm whitespace-pre-wrap break-all">
+                    {`<script src="${process.env.NEXT_PUBLIC_SITE_URL}/api/modal/${modal.id}?token=${modal.access_token}"></script>`}
+                  </pre>
+                </Snippet>
+              </div>
             </CardFooter>
           </Card>
         ))}
