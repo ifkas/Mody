@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { createClient } from "@/utils/supabase/client";
 
 // Components
@@ -9,23 +9,37 @@ import { Image } from "next/image";
 import Link from "next/link";
 import { Snippet } from "@nextui-org/snippet";
 
-export default function UserModals() {
+export default function UserModals({ refreshTrigger }: { refreshTrigger: number }) {
   const [modals, setModals] = useState<{ id: any; title: string; body: string; access_token: string }[]>([]);
 
-  useEffect(() => {
-    async function fetchModals() {
-      const supabase = createClient();
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-      if (user) {
-        const { data, error } = await supabase.from("modals").select("id, title,body,access_token").eq("user_id", user.id);
-        if (data) setModals(data);
-      }
+  // useEffect(() => {
+  //   async function fetchModals() {
+  //     const supabase = createClient();
+  //     const {
+  //       data: { user },
+  //     } = await supabase.auth.getUser();
+  //     if (user) {
+  //       const { data, error } = await supabase.from("modals").select("id, title, body, access_token").eq("user_id", user.id);
+  //       if (data) setModals(data);
+  //     }
+  //   }
+  //   fetchModals();
+  // }, [refreshTrigger]);
+
+  const fetchModals = useCallback(async () => {
+    const supabase = createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (user) {
+      const { data, error } = await supabase.from("modals").select("id, title, body, access_token").eq("user_id", user.id);
+      if (data) setModals(data);
     }
-    fetchModals();
-    // }, [modals]);
   }, []);
+
+  useEffect(() => {
+    fetchModals();
+  }, [fetchModals, refreshTrigger]);
 
   return (
     <div>

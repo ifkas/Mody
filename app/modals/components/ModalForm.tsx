@@ -22,6 +22,7 @@ export default function ModalForm({
   setSubmitColor,
   showConfirmation,
   setShowConfirmation,
+  onSubmitSuccess,
 }: {
   title: string;
   setTitle: (title: string) => void;
@@ -33,15 +34,16 @@ export default function ModalForm({
   setSubmitColor: (color: string) => void;
   showConfirmation: boolean;
   setShowConfirmation: (show: boolean) => void;
+  onSubmitSuccess?: () => void;
 }) {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [modalContent, setModalContent] = useState({ title: "", body: "", backdrop: "", scriptTag: "" });
 
   const clearForm = () => {
-    setTitle("");
-    setBody("");
-    setButtonText("");
+    setTitle("Your title here");
+    setBody("The content of your modal goes here.");
+    setButtonText("Submit");
     setSubmitColor("#000000");
     setShowConfirmation(true);
   };
@@ -118,6 +120,9 @@ export default function ModalForm({
         scriptTag: scriptTag,
       });
       clearForm();
+      if (onSubmitSuccess) {
+        onSubmitSuccess();
+      }
     }
     setIsOpen(true);
   };
@@ -141,11 +146,13 @@ export default function ModalForm({
             onValueChange={setBody}
           />
         </div>
-        <div>
-          <label htmlFor="buttonText">Button Text</label>
-          <Input isRequired type="text" variant="faded" size="sm" label="button text" value={buttonText} onValueChange={setButtonText} />
-        </div>
-        <h3 className="text-lg font-medium text-gray-900 mb-6">Usability</h3>
+        {showConfirmation && (
+          <div>
+            <label htmlFor="buttonText">Action button text</label>
+            <Input isRequired type="text" variant="faded" size="sm" label="button text" value={buttonText} onValueChange={setButtonText} />
+          </div>
+        )}
+        <h3 className="text-lg font-medium text-gray-900 my-6">Usability</h3>
         <div className="flex items-center space-x-2 mb-6">
           <Switch isSelected={showConfirmation} onValueChange={setShowConfirmation} />
           <label htmlFor="confirmationSwitch" className="text-sm font-medium text-gray-700">

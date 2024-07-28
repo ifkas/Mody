@@ -16,6 +16,11 @@ export default function ModalEditor() {
   const [buttonText, setButtonText] = useState("Deactivate");
   const [submitColor, setSubmitColor] = useState("#000000");
   const [showConfirmation, setShowConfirmation] = useState(true);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
+
+  const handleModalSubmit = () => {
+    setRefreshTrigger((prev) => prev + 1);
+  };
 
   return (
     <>
@@ -39,6 +44,7 @@ export default function ModalEditor() {
                 setSubmitColor={setSubmitColor}
                 showConfirmation={showConfirmation}
                 setShowConfirmation={setShowConfirmation}
+                onSubmitSuccess={handleModalSubmit}
               />
             </div>
           </div>
@@ -116,7 +122,7 @@ export default function ModalEditor() {
                 )}
               </div>
               <h3 className="text-lg font-medium text-gray-900 mt-10 mb-6">Your modals</h3>
-              <UserModals />
+              <UserModals refreshTrigger={refreshTrigger} />
               // Later will add here spinner and real time loading of the created modals
             </div>
           </div>

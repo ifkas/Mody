@@ -30,9 +30,16 @@ const HeaderTwo: React.FC<{ user: any }> = ({ user }) => {
         <div className="relative flex items-center justify-center py-5 lg:justify-between">
           {/* Logo */}
           <div className="absolute left-0 flex-shrink-0 lg:static">
-            <a href="#">
-              <span className="sr-only">Your Company</span>
-              <img className="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=300" alt="Your Company" />
+            <a className="flex" href="#">
+              <span className="sr-only">Mody</span>
+              <span>
+                <svg fill="#A5B4FC" height="42" viewBox="0 0 32 32" width="52" xmlns="http://www.w3.org/2000/svg">
+                  <g id="Layer_2" data-name="Layer 2">
+                    <path d="m27 4h-22a3 3 0 0 0 -3 3v16a3 3 0 0 0 3 3h17.764l5.789 2.9a1 1 0 0 0 1.447-.9v-21a3 3 0 0 0 -3-3zm-11 16h-7a1 1 0 0 1 0-2h7a1 1 0 0 1 0 2zm7-4h-14a1 1 0 0 1 0-2h14a1 1 0 0 1 0 2zm0-4h-14a1 1 0 0 1 0-2h14a1 1 0 0 1 0 2z" />
+                  </g>
+                </svg>
+              </span>
+              <span className="text-indigo-200 text-4xl font-bold ml-2">Mody</span>
             </a>
           </div>
 
