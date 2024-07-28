@@ -54,7 +54,6 @@ export default function ModalEditor() {
           <div className="overflow-hidden rounded-lg bg-white shadow">
             <div className="p-6">
               <h3 className="text-lg font-medium text-gray-900 mb-6">Preview of the modal</h3>
-
               <div className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
                 <div className="absolute right-0 top-0 hidden pr-4 pt-4 sm:block">
                   <button
@@ -117,7 +116,8 @@ export default function ModalEditor() {
                 )}
               </div>
               <h3 className="text-lg font-medium text-gray-900 mt-10 mb-6">Your modals</h3>
-              {/* <UserModals /> */}
+              <UserModals />
+              // Later will add here spinner and real time loading of the created modals
             </div>
           </div>
         </section>

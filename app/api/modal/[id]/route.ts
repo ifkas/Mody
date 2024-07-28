@@ -17,40 +17,50 @@ export async function GET(request: Request, { params }: { params: { id: string }
     refresh_token: "",
   });
 
-  const { data, error } = await supabase.from("modals").select("title, body, button").eq("id", params.id).single();
+  const { data, error } = await supabase
+    .from("modals")
+    .select("title, body, button, show_confirmation, button_color")
+    .eq("id", params.id)
+    .single();
 
   if (error || !data) {
     return NextResponse.json({ error: "Modal not found or access denied" }, { status: 404 });
   }
 
-  //   const script = `
-  //     (function() {
-  //       var modal = ${JSON.stringify(data)};
-  //       // Code to create and display the modal
-  //       var modalHtml = '<div id="custom-modal" style="position:fixed;z-index:1000;left:0;top:0;width:100%;height:100%;background-color:rgba(0,0,0,0.5);">' +
-  //         '<div style="background-color:#fefefe;margin:15% auto;padding:20px;border:1px solid #888;width:80%;">' +
-  //         '<h2>' + modal.title + '</h2>' +
-  //         '<p>' + modal.body + '</p>' +
-  //         '<button onclick="document.getElementById(\'custom-modal\').style.display=\'none\'">' + modal.button + '</button>' +
-  //         '</div></div>';
-  //       document.body.insertAdjacentHTML('beforeend', modalHtml);
-  //       document.getElementById('custom-modal').style.display = 'block';
-  //     })();
-  //   `;
+  // BELOW SCRIPT WILL CHANGE PRIOR TO THE FINAL RELEASE
+  // leaving comments inside when finished I must remove them otherwise will show in websites across when used
   const script = `
   (function() {
-    var modal = {"title":"Et mollitia laborios","body":"Ad voluptatum dolore","button":"Inventore asperiores"};
-    // Code to create and display the modal
-    var modalHtml = '<div id="modal" style="position:fixed;z-index:1000;left:0;top:0;width:100%;height:100%;background-color:rgba(0,0,0,0.5);">' +
-      '<div style="background-color:#fefefe;margin:15% auto;padding:20px;border:1px solid #888;width:80%;">' +
-      '<h2>' + modal.title + '</h2>' +
+    var modal = ${JSON.stringify(data)};
+    
+    var modalHtml = '<div id="custom-modal" style="position:fixed;z-index:1000;left:0;top:0;width:100%;height:100%;background-color:rgba(0,0,0,0.5);display:none;">' +
+      '<div style="background-color:#fefefe;margin:15% auto;padding:20px;border:1px solid #888;width:80%;max-width:500px;border-radius:8px;">' +
+      '<h2 style="margin-top:0;">' + modal.title + '</h2>' +
       '<p>' + modal.body + '</p>' +
-    '<button onclick="document.getElementById(\'modal\').style.display=\'none\'">' + modal.button + '</button>' +
-      '</div></div>';
+      '<div style="text-align:right;">';
+    
+    if (modal.show_confirmation) {
+      modalHtml += '<button onclick="document.getElementById(\\'custom-modal\\').style.display=\\'none\\'" style="margin-right:10px;padding:8px 16px;border:none;background-color:#f3f4f6;cursor:pointer;border-radius:4px;">Cancel</button>' +
+      '<button onclick="document.getElementById(\\'custom-modal\\').style.display=\\'none\\'" style="padding:8px 16px;border:none;background-color:' + (modal.button_color || '#3b82f6') + ';color:white;cursor:pointer;border-radius:4px;">' + modal.button + '</button>';
+    } else {
+      modalHtml += '<button onclick="document.getElementById(\\'custom-modal\\').style.display=\\'none\\'" style="padding:8px 16px;border:none;background-color:#f3f4f6;cursor:pointer;border-radius:4px;">Close</button>';
+    }
+    
+    modalHtml += '</div></div></div>';
+    
     document.body.insertAdjacentHTML('beforeend', modalHtml);
-    document.getElementById('modal').style.display = 'block';
+    
+    // I will leave this here because later I will provide
+    // an option in dashboardto to show the modal based on custom button ID by clicking
+    window.showCustomModal = function() {
+      document.getElementById('custom-modal').style.display = 'block';
+    };
+    
+    // Automatically show the modal after a delay
+    // I will make this later on as option in the dashboard
+    setTimeout(showCustomModal, 2000);
   })();
-  `;
+`;
 
   return new NextResponse(script, {
     headers: { "Content-Type": "application/javascript" },
