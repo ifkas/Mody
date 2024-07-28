@@ -95,7 +95,7 @@ export default function ModalForm({
         button: buttonText,
         user_id: user.id,
         access_token: accessToken,
-        button_color: submitColor,
+        button_color: showConfirmation ? submitColor : null,
         show_confirmation: showConfirmation,
       })
       .select()
@@ -146,20 +146,22 @@ export default function ModalForm({
           <Input isRequired type="text" variant="faded" size="sm" label="button text" value={buttonText} onValueChange={setButtonText} />
         </div>
         <h3 className="text-lg font-medium text-gray-900 mb-6">Usability</h3>
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-2 mb-6">
           <Switch isSelected={showConfirmation} onValueChange={setShowConfirmation} />
           <label htmlFor="confirmationSwitch" className="text-sm font-medium text-gray-700">
             Show Confirmation Buttons
           </label>
         </div>
         <h3 className="text-lg font-medium text-gray-900 mb-6">Styling</h3>
-        <div>
-          <label htmlFor="submitColor" className="block text-sm font-medium text-gray-700 mb-2">
-            Submit Button Color
-          </label>
-          <HexColorPicker color={submitColor} onChange={setSubmitColor} />
-          <Input type="text" value={submitColor} onChange={(e) => setSubmitColor(e.target.value)} className="mt-2" />
-        </div>
+        {showConfirmation && (
+          <div>
+            <label htmlFor="submitColor" className="block text-sm font-medium text-gray-700 mb-2">
+              Submit Button Color
+            </label>
+            <HexColorPicker color={submitColor} onChange={setSubmitColor} />
+            <Input type="text" value={submitColor} onChange={(e) => setSubmitColor(e.target.value)} className="mt-2" />
+          </div>
+        )}
         <Button type="submit" color="secondary" className="mt-6">
           Submit Modal
         </Button>
