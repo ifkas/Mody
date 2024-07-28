@@ -15,14 +15,14 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const supabase = createClient();
   const {
     data: { user },
-  } = (await supabase.auth.getUser()) || { data: { user: null } };
+  } = (await supabase.auth.getUser()) || { data: { user: null } as { user: any } };
 
   return (
     <html lang="en" className="bg-gray-100 text-foreground">
       <body className="h-full">
         <main className="min-h-full">
           {user ? <HeaderTwo /> : <Header />}
-          <div className="-mt-24 pb-8">
+          <div className={`${user ? "-mt-24" : ""} pb-8`}>
             <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">{children}</div>
           </div>
         </main>

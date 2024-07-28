@@ -9,6 +9,7 @@ import { HexColorPicker } from "react-colorful";
 import { Input, Textarea } from "@nextui-org/input";
 import { Button } from "@nextui-org/button";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@nextui-org/modal";
+import { Switch } from "@nextui-org/switch";
 
 export default function ModalForm({
   title,
@@ -19,6 +20,8 @@ export default function ModalForm({
   setButtonText,
   submitColor,
   setSubmitColor,
+  showConfirmation,
+  setShowConfirmation,
 }: {
   title: string;
   setTitle: (title: string) => void;
@@ -28,6 +31,8 @@ export default function ModalForm({
   setButtonText: (buttonText: string) => void;
   submitColor: string;
   setSubmitColor: (color: string) => void;
+  showConfirmation: boolean;
+  setShowConfirmation: (show: boolean) => void;
 }) {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
@@ -38,6 +43,7 @@ export default function ModalForm({
     setBody("");
     setButtonText("");
     setSubmitColor("#000000");
+    setShowConfirmation(true);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -83,7 +89,15 @@ export default function ModalForm({
 
     const { data, error } = await supabase
       .from("modals")
-      .insert({ title, body, button: buttonText, user_id: user.id, access_token: accessToken, button_color: submitColor })
+      .insert({
+        title,
+        body,
+        button: buttonText,
+        user_id: user.id,
+        access_token: accessToken,
+        button_color: submitColor,
+        show_confirmation: showConfirmation,
+      })
       .select()
       .single();
 
@@ -130,6 +144,13 @@ export default function ModalForm({
         <div>
           <label htmlFor="buttonText">Button Text</label>
           <Input isRequired type="text" variant="faded" size="sm" label="button text" value={buttonText} onValueChange={setButtonText} />
+        </div>
+        <h3 className="text-lg font-medium text-gray-900 mb-6">Usability</h3>
+        <div className="flex items-center space-x-2">
+          <Switch isSelected={showConfirmation} onValueChange={setShowConfirmation} />
+          <label htmlFor="confirmationSwitch" className="text-sm font-medium text-gray-700">
+            Show Confirmation Buttons
+          </label>
         </div>
         <h3 className="text-lg font-medium text-gray-900 mb-6">Styling</h3>
         <div>
