@@ -22,6 +22,8 @@ export default function ModalForm({
   setSubmitColor,
   showConfirmation,
   setShowConfirmation,
+  buttonLink,
+  setButtonLink,
   onSubmitSuccess,
 }: {
   title: string;
@@ -34,6 +36,8 @@ export default function ModalForm({
   setSubmitColor: (color: string) => void;
   showConfirmation: boolean;
   setShowConfirmation: (show: boolean) => void;
+  buttonLink: string;
+  setButtonLink: (link: string) => void;
   onSubmitSuccess?: () => void;
 }) {
   const router = useRouter();
@@ -46,6 +50,7 @@ export default function ModalForm({
     setButtonText("Submit");
     setSubmitColor("#000000");
     setShowConfirmation(true);
+    setButtonLink("");
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -98,6 +103,7 @@ export default function ModalForm({
         user_id: user.id,
         access_token: accessToken,
         button_color: showConfirmation ? submitColor : null,
+        button_link: buttonLink,
         show_confirmation: showConfirmation,
       })
       .select()
@@ -147,10 +153,32 @@ export default function ModalForm({
           />
         </div>
         {showConfirmation && (
-          <div>
-            <label htmlFor="buttonText">Action button text</label>
-            <Input isRequired type="text" variant="faded" size="sm" label="button text" value={buttonText} onValueChange={setButtonText} />
-          </div>
+          <>
+            <div className="mb-4">
+              <label htmlFor="buttonText">Action button text</label>
+              <Input
+                isRequired
+                type="text"
+                variant="faded"
+                size="sm"
+                label="button text"
+                value={buttonText}
+                onValueChange={setButtonText}
+              />
+            </div>
+            <div className="mb-4">
+              <label htmlFor="buttonLink">Action button link (optional)</label>
+              <Input
+                type="url"
+                variant="faded"
+                size="sm"
+                label="button link"
+                value={buttonLink}
+                onValueChange={setButtonLink}
+                placeholder="https://example.com"
+              />
+            </div>
+          </>
         )}
         <h3 className="text-lg font-medium text-gray-900 my-6">Usability</h3>
         <div className="flex items-center space-x-2 mb-6">

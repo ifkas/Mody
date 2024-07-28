@@ -19,7 +19,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
 
   const { data, error } = await supabase
     .from("modals")
-    .select("title, body, button, show_confirmation, button_color")
+    .select("title, body, button, show_confirmation, button_color, button_link")
     .eq("id", params.id)
     .single();
 
@@ -40,8 +40,17 @@ export async function GET(request: Request, { params }: { params: { id: string }
       '<div style="text-align:right;">';
     
     if (modal.show_confirmation) {
-      modalHtml += '<button onclick="document.getElementById(\\'custom-modal\\').style.display=\\'none\\'" style="margin-right:10px;padding:8px 16px;border:none;background-color:#f3f4f6;cursor:pointer;border-radius:4px;">Cancel</button>' +
-      '<button onclick="document.getElementById(\\'custom-modal\\').style.display=\\'none\\'" style="padding:8px 16px;border:none;background-color:' + (modal.button_color || '#3b82f6') + ';color:white;cursor:pointer;border-radius:4px;">' + modal.button + '</button>';
+      modalHtml += '<button onclick="document.getElementById(\\'custom-modal\\').style.display=\\'none\\'" style="margin-right:10px;padding:8px 16px;border:none;background-color:#f3f4f6;cursor:pointer;border-radius:4px;">Cancel</button>';
+      
+      var actionButtonHtml = '<button ';
+      if (modal.button_link) {
+        actionButtonHtml += 'onclick="window.open(\\'' + modal.button_link + '\\', \\'_blank\\'); document.getElementById(\\'custom-modal\\').style.display=\\'none\\';" ';
+      } else {
+        actionButtonHtml += 'onclick="document.getElementById(\\'custom-modal\\').style.display=\\'none\\'" ';
+      }
+      actionButtonHtml += 'style="padding:8px 16px;border:none;background-color:' + (modal.button_color || '#3b82f6') + ';color:white;cursor:pointer;border-radius:4px;">' + modal.button + '</button>';
+      
+      modalHtml += actionButtonHtml;
     } else {
       modalHtml += '<button onclick="document.getElementById(\\'custom-modal\\').style.display=\\'none\\'" style="padding:8px 16px;border:none;background-color:#f3f4f6;cursor:pointer;border-radius:4px;">Close</button>';
     }

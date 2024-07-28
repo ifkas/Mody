@@ -16,6 +16,7 @@ export default function ModalEditor() {
   const [buttonText, setButtonText] = useState("Deactivate");
   const [submitColor, setSubmitColor] = useState("#000000");
   const [showConfirmation, setShowConfirmation] = useState(true);
+  const [buttonLink, setButtonLink] = useState("");
   const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   const handleModalSubmit = () => {
@@ -38,12 +39,14 @@ export default function ModalEditor() {
                 setTitle={setTitle}
                 body={body}
                 setBody={setBody}
+                showConfirmation={showConfirmation}
+                setShowConfirmation={setShowConfirmation}
                 buttonText={buttonText}
                 setButtonText={setButtonText}
                 submitColor={submitColor}
                 setSubmitColor={setSubmitColor}
-                showConfirmation={showConfirmation}
-                setShowConfirmation={setShowConfirmation}
+                buttonLink={buttonLink}
+                setButtonLink={setButtonLink}
                 onSubmitSuccess={handleModalSubmit}
               />
             </div>
