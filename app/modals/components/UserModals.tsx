@@ -8,6 +8,7 @@ import { Card, CardHeader, CardBody, CardFooter } from "@nextui-org/card";
 import { Image } from "next/image";
 import Link from "next/link";
 import { Snippet } from "@nextui-org/snippet";
+import { Button } from "@nextui-org/button";
 
 export default function UserModals({ refreshTrigger }: { refreshTrigger: number }) {
   const [modals, setModals] = useState<{ id: any; title: string; body: string; access_token: string }[]>([]);
@@ -45,13 +46,6 @@ export default function UserModals({ refreshTrigger }: { refreshTrigger: number 
     <div>
       <div className="grid grid-cols-3 gap-4">
         {modals.map((modal) => (
-          // <div key={modal.id}>
-          //   <h3>{modal.title}</h3>
-          //   <Code color="secondary" size="sm" className="whitespace-pre-wrap">
-          //     {" "}
-          //     {`<script src="${process.env.NEXT_PUBLIC_SITE_URL}/api/modal/${modal.id}?token=${modal.access_token}"></script>`}
-          //   </Code>
-          // </div>
           <Card className="max-w-[400px]">
             <CardHeader className="flex gap-3">
               {/* <Image alt="nextui logo" height={40} radius="sm" src="https://avatars.githubusercontent.com/u/86160567?s=200&v=4" width={40} /> */}
@@ -66,15 +60,14 @@ export default function UserModals({ refreshTrigger }: { refreshTrigger: number 
             </CardBody>
             <hr />
             <CardFooter>
-              {/* <Link isExternal showAnchorIcon href="https://github.com/nextui-org/nextui">
-              Visit source code on GitHub.
-            </Link> */}
-              <div className="flex-wrap ">
-                <Snippet hideSymbol>
-                  <pre className="text-sm whitespace-pre-wrap break-all">
-                    {`<script src="${process.env.NEXT_PUBLIC_SITE_URL}/api/modal/${modal.id}?token=${modal.access_token}"></script>`}
-                  </pre>
-                </Snippet>
+              <div className="flex flex-col gap-2">
+                <div className="flex-wrap ">
+                  <Snippet hideSymbol>
+                    <pre className="text-sm whitespace-pre-wrap break-all">
+                      {`<script src="${process.env.NEXT_PUBLIC_SITE_URL}/api/modal/${modal.id}?token=${modal.access_token}"></script>`}
+                    </pre>
+                  </Snippet>
+                </div>
               </div>
             </CardFooter>
           </Card>

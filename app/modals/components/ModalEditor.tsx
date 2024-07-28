@@ -14,9 +14,10 @@ export default function ModalEditor() {
     "Are you sure you want to deactivate your account? All of your data will be permanently removed from our servers forever. This action cannot be undone."
   );
   const [buttonText, setButtonText] = useState("Deactivate");
+  const [buttonLink, setButtonLink] = useState("");
   const [submitColor, setSubmitColor] = useState("#000000");
   const [showConfirmation, setShowConfirmation] = useState(true);
-  const [buttonLink, setButtonLink] = useState("");
+  const [isExitIntent, setIsExitIntent] = useState(false);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   const handleModalSubmit = () => {
@@ -41,12 +42,14 @@ export default function ModalEditor() {
                 setBody={setBody}
                 showConfirmation={showConfirmation}
                 setShowConfirmation={setShowConfirmation}
+                isExitIntent={isExitIntent}
+                setIsExitIntent={setIsExitIntent}
                 buttonText={buttonText}
                 setButtonText={setButtonText}
-                submitColor={submitColor}
-                setSubmitColor={setSubmitColor}
                 buttonLink={buttonLink}
                 setButtonLink={setButtonLink}
+                submitColor={submitColor}
+                setSubmitColor={setSubmitColor}
                 onSubmitSuccess={handleModalSubmit}
               />
             </div>
@@ -126,7 +129,7 @@ export default function ModalEditor() {
               </div>
               <h3 className="text-lg font-medium text-gray-900 mt-10 mb-6">Your modals</h3>
               <UserModals refreshTrigger={refreshTrigger} />
-              // Later will add here spinner and real time loading of the created modals
+              {/* Later will add here spinner and real time loading of the created modals */}
             </div>
           </div>
         </section>

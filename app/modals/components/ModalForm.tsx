@@ -10,6 +10,7 @@ import { Input, Textarea } from "@nextui-org/input";
 import { Button } from "@nextui-org/button";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@nextui-org/modal";
 import { Switch } from "@nextui-org/switch";
+import { Tooltip } from "@nextui-org/tooltip";
 
 export default function ModalForm({
   title,
@@ -18,12 +19,14 @@ export default function ModalForm({
   setBody,
   buttonText,
   setButtonText,
+  buttonLink,
+  setButtonLink,
   submitColor,
   setSubmitColor,
   showConfirmation,
   setShowConfirmation,
-  buttonLink,
-  setButtonLink,
+  isExitIntent,
+  setIsExitIntent,
   onSubmitSuccess,
 }: {
   title: string;
@@ -32,12 +35,14 @@ export default function ModalForm({
   setBody: (body: string) => void;
   buttonText: string;
   setButtonText: (buttonText: string) => void;
+  buttonLink: string;
+  setButtonLink: (link: string) => void;
   submitColor: string;
   setSubmitColor: (color: string) => void;
   showConfirmation: boolean;
   setShowConfirmation: (show: boolean) => void;
-  buttonLink: string;
-  setButtonLink: (link: string) => void;
+  isExitIntent: boolean;
+  setIsExitIntent: (isExit: boolean) => void;
   onSubmitSuccess?: () => void;
 }) {
   const router = useRouter();
@@ -105,6 +110,7 @@ export default function ModalForm({
         button_color: showConfirmation ? submitColor : null,
         button_link: buttonLink,
         show_confirmation: showConfirmation,
+        is_exit_intent: isExitIntent,
       })
       .select()
       .single();
@@ -186,6 +192,29 @@ export default function ModalForm({
           <label htmlFor="confirmationSwitch" className="text-sm font-medium text-gray-700">
             Show Confirmation Buttons
           </label>
+        </div>
+        <div className="flex items-center space-x-2 mb-6">
+          <Switch isSelected={isExitIntent} onValueChange={setIsExitIntent} />
+          <label htmlFor="exitIntentSwitch" className="text-sm font-medium text-gray-700">
+            Enable Exit Intent Modal
+          </label>
+          <span>
+            <Tooltip
+              showArrow={true}
+              content={
+                <span className="text-sm">
+                  They're often used in e-commerce and marketing to reduce bounce rates, <br />
+                  capture leads, or make last-minute offers before a visitor leaves the site.
+                </span>
+              }
+              color="primary"
+              placement="right"
+            >
+              <span className="inline-flex items-center justify-center w-4 h-4 text-xs font-bold text-white bg-blue-500 rounded-full">
+                ?
+              </span>
+            </Tooltip>
+          </span>
         </div>
         <h3 className="text-lg font-medium text-gray-900 mb-6">Styling</h3>
         {showConfirmation && (

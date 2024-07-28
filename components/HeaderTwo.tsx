@@ -97,7 +97,7 @@ const HeaderTwo: React.FC<{ user: any }> = ({ user }) => {
           <div className="grid grid-cols-3 items-center gap-8">
             <div className="text-white">
               {" "}
-              Hi {user?.user_metadata?.name || user?.email || "there"}, such a lovely day to create a modal!
+              Hi {user?.user_metadata?.name || user?.email || "there"}, it is such a lovely day to create a modal!
             </div>
             <div className="col-span-2 text-right">
               <Link

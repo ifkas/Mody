@@ -19,7 +19,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
 
   const { data, error } = await supabase
     .from("modals")
-    .select("title, body, button, show_confirmation, button_color, button_link")
+    .select("title, body, button, show_confirmation, button_color, button_link, is_exit_intent")
     .eq("id", params.id)
     .single();
 
@@ -28,6 +28,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
   }
 
   // BELOW SCRIPT WILL CHANGE PRIOR TO THE FINAL RELEASE
+  // DO NOT FORGET TO MINIFY BEFORE PRODUCTION
   // leaving comments inside when finished I must remove them otherwise will show in websites across when used
   const script = `
   (function() {
@@ -59,15 +60,33 @@ export async function GET(request: Request, { params }: { params: { id: string }
     
     document.body.insertAdjacentHTML('beforeend', modalHtml);
     
-    // I will leave this here because later I will provide
-    // an option in dashboardto to show the modal based on custom button ID by clicking
     window.showCustomModal = function() {
       document.getElementById('custom-modal').style.display = 'block';
     };
-    
-    // Automatically show the modal after a delay
+
+    if (modal.is_exit_intent) {
+      var showExitIntent = false;
+      
+      document.addEventListener('mouseleave', function(e) {
+        if (e.clientY < 0 && !showExitIntent) {
+          showExitIntent = true;
+          showCustomModal();
+        }
+      });
+
+      window.addEventListener('beforeunload', function (e) {
+        if (!showExitIntent) {
+          showExitIntent = true;
+          showCustomModal();
+          e.preventDefault();
+          e.returnValue = '';
+        }
+      });
+    } else {
+      // Automatically show the modal after a delay and if not exit intent
     // I will make this later on as option in the dashboard
-    setTimeout(showCustomModal, 2000);
+      setTimeout(showCustomModal, 2000);
+    }
   })();
 `;
 
