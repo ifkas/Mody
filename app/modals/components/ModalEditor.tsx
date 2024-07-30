@@ -34,7 +34,7 @@ export default function ModalEditor() {
           </h2>
           <div className="overflow-hidden rounded-lg bg-white shadow">
             <div className="p-6">
-              <h3 className="text-lg font-medium text-gray-900 mb-6">Tune your modal</h3>
+              <h3 className="text-lg font-medium text-gray-900 mb-10">Tune your modal</h3>
               <ModalForm
                 title={title}
                 setTitle={setTitle}

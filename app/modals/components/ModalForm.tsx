@@ -143,43 +143,56 @@ export default function ModalForm({
     <>
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="title">Title</label>
-          <Input isRequired type="text" variant="faded" size="sm" label="Title" value={title} onValueChange={setTitle} />
-        </div>
-        <div className="my-4">
-          <label htmlFor="body">Body</label>
-          <Textarea
+          {/* <label htmlFor="title">Title</label> */}
+          <Input
+            isRequired
+            type="text"
             variant="faded"
-            size="lg"
+            size="sm"
+            label="Title"
+            value={title}
+            labelPlacement="outside"
+            onValueChange={setTitle}
+          />
+        </div>
+        <div className="mt-4">
+          {/* <label htmlFor="body">Body</label> */}
+          <Textarea
+            isRequired
+            variant="faded"
+            size="sm"
             label="Description"
             placeholder="Enter your description"
             className="w-full"
             value={body}
+            labelPlacement="outside"
             onValueChange={setBody}
           />
         </div>
         {showConfirmation && (
           <>
-            <div className="mb-4">
-              <label htmlFor="buttonText">Action button text</label>
+            <div className="my-10">
+              {/* <label htmlFor="buttonText">Action button text</label> */}
               <Input
                 isRequired
                 type="text"
                 variant="faded"
                 size="sm"
-                label="button text"
+                label="Button text"
                 value={buttonText}
+                labelPlacement="outside"
                 onValueChange={setButtonText}
               />
             </div>
             <div className="mb-4">
-              <label htmlFor="buttonLink">Action button link (optional)</label>
+              {/* <label htmlFor="buttonLink">Action button link (optional)</label> */}
               <Input
                 type="url"
                 variant="faded"
                 size="sm"
-                label="button link"
+                label="Button link (optional)"
                 value={buttonLink}
+                labelPlacement="outside"
                 onValueChange={setButtonLink}
                 placeholder="https://example.com"
               />
