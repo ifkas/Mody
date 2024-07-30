@@ -9,10 +9,12 @@ import { Image } from "next/image";
 import Link from "next/link";
 import { Snippet } from "@nextui-org/snippet";
 import { Button } from "@nextui-org/button";
+import Toast from "@/components/UI/toast/toast";
 
 export default function UserModals({ refreshTrigger }: { refreshTrigger: number }) {
   const [modals, setModals] = useState<{ id: any; title: string; body: string; access_token: string }[]>([]);
-
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
   // useEffect(() => {
   //   async function fetchModals() {
   //     const supabase = createClient();
@@ -42,8 +44,28 @@ export default function UserModals({ refreshTrigger }: { refreshTrigger: number 
     fetchModals();
   }, [fetchModals, refreshTrigger]);
 
+  const handleDelete = async (id: string) => {
+    const supabase = createClient();
+    const { error } = await supabase.from("modals").delete().eq("id", id);
+    if (!error) {
+      fetchModals();
+      setToastMessage("Modal has been deleted successfully.");
+      setShowToast(true);
+      setTimeout(() => setShowToast(false), 3000);
+    } else {
+      console.error("Error deleting modal:", error);
+      setToastMessage("Error deleting modal. Please try again.");
+      setShowToast(true);
+      setTimeout(() => setShowToast(false), 3000);
+    }
+  };
+
   return (
     <div>
+      {showToast && (
+        // <Toast message={toastMessage} type={toastMessage.includes("Error") ? "error" : "success"} onClose={() => setShowToast(false)} />
+        <Toast message={toastMessage} type="error" onClose={() => setShowToast(false)} />
+      )}
       <div className="grid grid-cols-3 gap-4">
         {modals.map((modal) => (
           <Card className="max-w-[400px]">
@@ -67,6 +89,14 @@ export default function UserModals({ refreshTrigger }: { refreshTrigger: number 
                       {`<script src="${process.env.NEXT_PUBLIC_SITE_URL}/api/modal/${modal.id}?token=${modal.access_token}"></script>`}
                     </pre>
                   </Snippet>
+                </div>
+                <div className="flex justify-between mt-2">
+                  {/* <Button color="primary" onClick={() => onEdit(modal)}>
+                    Edit
+                  </Button> */}
+                  <Button color="danger" onClick={() => handleDelete(modal.id)}>
+                    Delete
+                  </Button>
                 </div>
               </div>
             </CardFooter>

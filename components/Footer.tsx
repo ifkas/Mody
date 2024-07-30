@@ -20,16 +20,11 @@ const Footer: React.FC = () => {
           </li>
           <li>
             <a href="#" className="hover:underline me-4 md:me-6">
-              Privacy Policy
-            </a>
-          </li>
-          <li>
-            <a href="#" className="hover:underline me-4 md:me-6">
               FAQ
             </a>
           </li>
           <li>
-            <a href="#" className="hover:underline">
+            <a href="#" className="hover:underline me-4 md:me-6">
               Contact
             </a>
           </li>
