@@ -1,6 +1,7 @@
 import "./globals.css";
 import Header from "@/components/Header";
 import HeaderTwo from "@/components/HeaderTwo";
+import Footer from "@/components/Footer";
 import { createClient } from "@/utils/supabase/server";
 
 const defaultUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000";
@@ -26,6 +27,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">{children}</div>
           </div>
         </main>
+        <Footer />
       </body>
     </html>
   );
