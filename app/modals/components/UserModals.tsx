@@ -15,19 +15,6 @@ export default function UserModals({ refreshTrigger }: { refreshTrigger: number 
   const [modals, setModals] = useState<{ id: any; title: string; body: string; access_token: string }[]>([]);
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
-  // useEffect(() => {
-  //   async function fetchModals() {
-  //     const supabase = createClient();
-  //     const {
-  //       data: { user },
-  //     } = await supabase.auth.getUser();
-  //     if (user) {
-  //       const { data, error } = await supabase.from("modals").select("id, title, body, access_token").eq("user_id", user.id);
-  //       if (data) setModals(data);
-  //     }
-  //   }
-  //   fetchModals();
-  // }, [refreshTrigger]);
 
   const fetchModals = useCallback(async () => {
     const supabase = createClient();

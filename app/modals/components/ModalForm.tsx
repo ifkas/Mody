@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
 import { HexColorPicker } from "react-colorful";
@@ -11,6 +11,7 @@ import { Button } from "@nextui-org/button";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@nextui-org/modal";
 import { Switch } from "@nextui-org/switch";
 import { Tooltip } from "@nextui-org/tooltip";
+import { Snippet } from "@nextui-org/snippet";
 
 export default function ModalForm({
   title,
@@ -46,8 +47,23 @@ export default function ModalForm({
   onSubmitSuccess?: () => void;
 }) {
   const router = useRouter();
-  const [isOpen, setIsOpen] = useState(false);
   const [modalContent, setModalContent] = useState({ title: "", body: "", backdrop: "", scriptTag: "" });
+  const [isOpen, setIsOpen] = useState(false);
+  const [isColorPickerOpen, setIsColorPickerOpen] = useState(false);
+  const colorPickerRef = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (colorPickerRef.current && !colorPickerRef.current.contains(event.target)) {
+        setIsColorPickerOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const clearForm = () => {
     setTitle("Your title here");
@@ -126,9 +142,9 @@ export default function ModalForm({
       const modalId = data.id;
       const scriptTag = `<script src="${process.env.NEXT_PUBLIC_SITE_URL}/api/modal/${modalId}?token=${accessToken}"></script>`;
       setModalContent({
-        title: "Success",
+        title: "Yay",
         backdrop: "blur",
-        body: "Modal submitted successfully.",
+        body: "the modal was created successfully!",
         scriptTag: scriptTag,
       });
       clearForm();
@@ -235,8 +251,21 @@ export default function ModalForm({
             <label htmlFor="submitColor" className="block text-sm font-medium text-gray-700 mb-2">
               Submit Button Color
             </label>
-            <HexColorPicker color={submitColor} onChange={setSubmitColor} />
-            <Input type="text" value={submitColor} onChange={(e) => setSubmitColor(e.target.value)} className="mt-2" />
+            <div className="flex">
+              <span className="relative" ref={colorPickerRef}>
+                <div
+                  className="w-10 h-10 rounded cursor-pointer border border-gray-300"
+                  style={{ backgroundColor: submitColor }}
+                  onClick={() => setIsColorPickerOpen(!isColorPickerOpen)}
+                />
+                {isColorPickerOpen && (
+                  // <div className="absolute z-10 mt-2">
+                  <HexColorPicker color={submitColor} onChange={setSubmitColor} />
+                  // </div>
+                )}
+              </span>
+              <Input type="text" value={submitColor} onChange={(e) => setSubmitColor(e.target.value)} className="w-3/4" />
+            </div>
           </div>
         )}
         <Button type="submit" color="secondary" className="mt-6">
@@ -250,13 +279,17 @@ export default function ModalForm({
         onClose={() => setIsOpen(false)}
       >
         <ModalContent>
-          <ModalHeader>{modalContent.title}</ModalHeader>
+          <ModalHeader>
+            {modalContent.title} - {modalContent.body}
+          </ModalHeader>
           <ModalBody>
-            <p>{modalContent.body}</p>
+            {/* <p>{modalContent.body}</p> */}
             {modalContent.scriptTag && (
               <div>
-                <p>Here's your script tag:</p>
-                <code>{modalContent.scriptTag}</code>
+                <p className="mb-4">Here's your script tag:</p>
+                <Snippet hideSymbol color="default" variant="solid">
+                  <pre className="text-sm whitespace-pre-wrap break-all">{modalContent.scriptTag}</pre>
+                </Snippet>
               </div>
             )}
           </ModalBody>
