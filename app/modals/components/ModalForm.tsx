@@ -24,6 +24,8 @@ export default function ModalForm({
   setButtonLink,
   submitColor,
   setSubmitColor,
+  backgroundColor,
+  setBackgroundColor,
   showConfirmation,
   setShowConfirmation,
   isExitIntent,
@@ -40,6 +42,8 @@ export default function ModalForm({
   setButtonLink: (link: string) => void;
   submitColor: string;
   setSubmitColor: (color: string) => void;
+  backgroundColor: string;
+  setBackgroundColor: (color: string) => void;
   showConfirmation: boolean;
   setShowConfirmation: (show: boolean) => void;
   isExitIntent: boolean;
@@ -50,12 +54,17 @@ export default function ModalForm({
   const [modalContent, setModalContent] = useState({ title: "", body: "", backdrop: "", scriptTag: "" });
   const [isOpen, setIsOpen] = useState(false);
   const [isColorPickerOpen, setIsColorPickerOpen] = useState(false);
+  const [isBackgroundColorPickerOpen, setIsBackgroundColorPickerOpen] = useState(false);
   const colorPickerRef = useRef(null);
+  const backgroundColorPickerRef = useRef(null);
 
   useEffect(() => {
     function handleClickOutside(event) {
       if (colorPickerRef.current && !colorPickerRef.current.contains(event.target)) {
         setIsColorPickerOpen(false);
+      }
+      if (backgroundColorPickerRef.current && !backgroundColorPickerRef.current.contains(event.target)) {
+        setIsBackgroundColorPickerOpen(false);
       }
     }
 
@@ -127,6 +136,7 @@ export default function ModalForm({
         button_link: buttonLink,
         show_confirmation: showConfirmation,
         is_exit_intent: isExitIntent,
+        background_color: backgroundColor,
       })
       .select()
       .single();
@@ -259,15 +269,35 @@ export default function ModalForm({
                   onClick={() => setIsColorPickerOpen(!isColorPickerOpen)}
                 />
                 {isColorPickerOpen && (
-                  // <div className="absolute z-10 mt-2">
-                  <HexColorPicker color={submitColor} onChange={setSubmitColor} />
-                  // </div>
+                  <div className="absolute z-10 right-full mr-2" style={{ top: "-100px" }}>
+                    <HexColorPicker color={submitColor} onChange={setSubmitColor} />
+                  </div>
                 )}
               </span>
               <Input type="text" value={submitColor} onChange={(e) => setSubmitColor(e.target.value)} className="w-3/4" />
             </div>
           </div>
         )}
+        <div className="mt-6">
+          <label htmlFor="backgroundColor" className="block text-sm font-medium text-gray-700 mb-2">
+            Modal Background Color
+          </label>
+          <div className="flex">
+            <span className="relative" ref={backgroundColorPickerRef}>
+              <div
+                className="w-10 h-10 rounded cursor-pointer border border-gray-300"
+                style={{ backgroundColor }}
+                onClick={() => setIsBackgroundColorPickerOpen(!isBackgroundColorPickerOpen)}
+              />
+              {isBackgroundColorPickerOpen && (
+                <div className="absolute z-10 right-full mr-2" style={{ top: "-100px" }}>
+                  <HexColorPicker color={backgroundColor} onChange={setBackgroundColor} />
+                </div>
+              )}
+            </span>
+            <Input type="text" value={backgroundColor} onChange={(e) => setBackgroundColor(e.target.value)} className="w-3/4" />
+          </div>
+        </div>
         <Button type="submit" color="secondary" className="mt-6">
           Submit Modal
         </Button>

@@ -22,7 +22,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <html lang="en" className="bg-gray-100 text-foreground">
       <body className="h-full">
         <main className="min-h-full">
-          {user ? <HeaderTwo /> : <Header />}
+          {/* {user ? <HeaderTwo /> : <Header />} */}
+          {user ? <HeaderTwo /> : ""}
           <div className={`${user ? "-mt-24" : ""} pb-8`}>
             <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">{children}</div>
           </div>

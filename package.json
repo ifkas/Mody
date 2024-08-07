@@ -6,6 +6,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@nextui-org/accordion": "^2.0.38",
     "@nextui-org/avatar": "^2.0.30",
     "@nextui-org/button": "^2.0.34",
     "@nextui-org/card": "^2.0.31",
