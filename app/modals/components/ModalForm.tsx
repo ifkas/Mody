@@ -298,7 +298,7 @@ export default function ModalForm({
             <Input type="text" value={backgroundColor} onChange={(e) => setBackgroundColor(e.target.value)} className="w-3/4" />
           </div>
         </div>
-        <Button type="submit" color="secondary" className="mt-6">
+        <Button type="submit" color="primary" className="mt-14 mb-6 w-full">
           Submit Modal
         </Button>
       </form>

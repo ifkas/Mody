@@ -8,10 +8,10 @@ import { createClient } from "@/utils/supabase/client";
 import Link from "next/link";
 
 interface HeaderTwoProps {
-  user?: User;
+  user?: User | null;
 }
 
-const HeaderTwo: React.FC<{ user: any }> = ({ user }) => {
+const HeaderTwo: React.FC<HeaderTwoProps> = ({ user }) => {
   const router = useRouter();
   const supabase = createClient();
 
