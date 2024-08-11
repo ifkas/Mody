@@ -5,13 +5,24 @@ import { createClient } from "@/utils/supabase/client";
 import { Input } from "@nextui-org/input";
 import { Button } from "@nextui-org/button";
 
-export default function SettingsForm({ user }) {
+interface User {
+  user_metadata: {
+    name: string;
+    email: string;
+  };
+}
+
+interface SettingsFormProps {
+  user: User;
+}
+
+export default function SettingsForm({ user }: SettingsFormProps) {
   const [name, setName] = useState(user.user_metadata.name || "");
   const [email, setEmail] = useState(user.user_metadata.email || "");
   const [loading, setLoading] = useState(false);
   const supabase = createClient();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
 
