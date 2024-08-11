@@ -5,8 +5,6 @@ import { createClient } from "@/utils/supabase/client";
 
 // Components
 import { Card, CardHeader, CardBody, CardFooter } from "@nextui-org/card";
-import { Image } from "next/image";
-import Link from "next/link";
 import { Snippet } from "@nextui-org/snippet";
 import { Button } from "@nextui-org/button";
 import Toast from "@/components/UI/toast/toast";
