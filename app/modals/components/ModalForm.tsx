@@ -55,15 +55,15 @@ export default function ModalForm({
   const [isOpen, setIsOpen] = useState(false);
   const [isColorPickerOpen, setIsColorPickerOpen] = useState(false);
   const [isBackgroundColorPickerOpen, setIsBackgroundColorPickerOpen] = useState(false);
-  const colorPickerRef = useRef(null);
-  const backgroundColorPickerRef = useRef(null);
+  const colorPickerRef = useRef<HTMLDivElement>(null);
+  const backgroundColorPickerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    function handleClickOutside(event) {
-      if (colorPickerRef.current && !colorPickerRef.current.contains(event.target)) {
+    function handleClickOutside(event: MouseEvent) {
+      if (colorPickerRef.current && !colorPickerRef.current.contains(event.target as Node)) {
         setIsColorPickerOpen(false);
       }
-      if (backgroundColorPickerRef.current && !backgroundColorPickerRef.current.contains(event.target)) {
+      if (backgroundColorPickerRef.current && !backgroundColorPickerRef.current.contains(event.target as Node)) {
         setIsBackgroundColorPickerOpen(false);
       }
     }
