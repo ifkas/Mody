@@ -4,8 +4,9 @@ import { useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { Input } from "@nextui-org/input";
 import { Button } from "@nextui-org/button";
+import { User as SupabaseUser } from "@supabase/auth-js";
 
-interface User {
+interface ExtendedUser extends SupabaseUser {
   user_metadata: {
     name: string;
     email: string;
@@ -13,7 +14,7 @@ interface User {
 }
 
 interface SettingsFormProps {
-  user: User;
+  user: ExtendedUser;
 }
 
 export default function SettingsForm({ user }: SettingsFormProps) {
@@ -22,7 +23,7 @@ export default function SettingsForm({ user }: SettingsFormProps) {
   const [loading, setLoading] = useState(false);
   const supabase = createClient();
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
