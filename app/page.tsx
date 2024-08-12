@@ -132,7 +132,7 @@ export default async function Index() {
           </Accordion>
         </section>
       </section>
-      <script src="http://localhost:3000/api/modal/45?token=d98428c4-60d5-401d-94d5-7dec3a66b720"></script>
+      <script src="https://mody-orcin.vercel.app/api/modal/45?token=d98428c4-60d5-401d-94d5-7dec3a66b720"></script>
     </>
   );
 }
