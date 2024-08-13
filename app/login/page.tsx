@@ -48,9 +48,9 @@ export default function Login({ searchParams }: { searchParams: { message: strin
   };
 
   return (
-    <div className="flex items-center justify-center">
+    <div className="flex items-center justify-center min-h-screen">
       <div className="flex-1 flex flex-col w-full px-8 sm:max-w-md justify-center gap-2">
-        <div className="sm:mx-auto sm:w-full sm:max-w-md my-10">
+        <div className="sm:mx-auto sm:w-full sm:max-w-md mb-10">
           <a className="flex justify-center mb-20" href="#">
             <span className="sr-only">Mody</span>
             <span>
@@ -62,7 +62,6 @@ export default function Login({ searchParams }: { searchParams: { message: strin
             </span>
             <span className="text-black text-4xl font-bold ml-2">Mody</span>
           </a>
-          {/* <img className="mx-auto h-10 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="Your Company"> */}
           <h2 className="mt-6 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Sign in to your account</h2>
         </div>
         <form className="flex-1 flex flex-col w-full justify-center gap-2 text-foreground">

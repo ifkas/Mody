@@ -225,7 +225,7 @@ export default function ModalForm({
             </div>
           </>
         )}
-        <h3 className="text-lg font-medium text-gray-900 my-6">Usability</h3>
+        <h3 className="text-lg font-medium text-gray-900 mt-10 mb-4">Usability</h3>
         <div className="flex items-center space-x-2 mb-6">
           <Switch isSelected={showConfirmation} onValueChange={setShowConfirmation} />
           <label htmlFor="confirmationSwitch" className="text-sm font-medium text-gray-700">
@@ -255,7 +255,7 @@ export default function ModalForm({
             </Tooltip>
           </span>
         </div>
-        <h3 className="text-lg font-medium text-gray-900 mb-6">Styling</h3>
+        <h3 className="text-lg font-medium text-gray-900 mt-10 mb-4">Styling</h3>
         {showConfirmation && (
           <div>
             <label htmlFor="submitColor" className="block text-sm font-medium text-gray-700 mb-2">

@@ -3,6 +3,7 @@
 // Components
 import { Button } from "@nextui-org/button";
 import { Accordion, AccordionItem } from "@nextui-org/accordion";
+import Footer from "@/components/Footer";
 
 export default async function Index() {
   const faqs = [
@@ -28,7 +29,7 @@ export default async function Index() {
   return (
     <>
       <header className="bg-gray-100 min-h-screen flex flex-col mb-12">
-        <nav className="flex justify-between items-center p-6">
+        <nav className="flex justify-between items-center p-6 w-5/6 mx-auto">
           <div className="flex items-center">
             {/* <img src="/your-logo.svg" alt="Your Logo" className="h-8 w-8 mr-2" />
           <span className="text-xl font-bold">Mody</span> */}
@@ -122,7 +123,7 @@ export default async function Index() {
       </header>
       <section className="w-full flex flex-col mx-auto justify-center items-center">
         <h2 className="text-3xl font-bold text-center mb-8 text-gray-800">Frequently Asked Questions</h2>
-        <section className="w-full py-12 px-4 sm:px-6 lg:px-8 b">
+        <section className="w-3/6 py-12 px-4 sm:px-6 lg:px-8">
           <Accordion variant="splitted">
             {faqs.map((faq, index) => (
               <AccordionItem key={index} aria-label={faq.question} title={faq.question} className="bg-white border rounded-lg px-4 py-2">
@@ -132,6 +133,7 @@ export default async function Index() {
           </Accordion>
         </section>
       </section>
+      <Footer />
       <script src="https://mody-orcin.vercel.app/api/modal/45?token=d98428c4-60d5-401d-94d5-7dec3a66b720"></script>
     </>
   );
