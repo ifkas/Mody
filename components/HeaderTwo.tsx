@@ -73,7 +73,7 @@ const HeaderTwo: React.FC<HeaderTwoProps> = ({ user }) => {
                     </button>
                   </DropdownTrigger>
                   <DropdownMenu aria-label="Dynamic Actions">
-                    <DropdownItem key="edit" href="/settings">
+                    <DropdownItem key="edit" href="/modals/settings">
                       Your settings
                     </DropdownItem>
                     <DropdownItem key="logout" color="danger" onPress={handleLogout}>
@@ -107,7 +107,7 @@ const HeaderTwo: React.FC<HeaderTwoProps> = ({ user }) => {
                 Home
               </Link>
               <Link
-                href="/settings"
+                href="/modals/settings"
                 className="rounded-md bg-white bg-opacity-0 px-3 py-2 text-sm font-medium text-white hover:bg-opacity-10"
               >
                 Settings
