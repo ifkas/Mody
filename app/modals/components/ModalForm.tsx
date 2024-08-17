@@ -26,6 +26,8 @@ export default function ModalForm({
   setSubmitColor,
   backgroundColor,
   setBackgroundColor,
+  textColor,
+  buttonTextColor,
   showConfirmation,
   setShowConfirmation,
   isExitIntent,
@@ -44,6 +46,10 @@ export default function ModalForm({
   setSubmitColor: (color: string) => void;
   backgroundColor: string;
   setBackgroundColor: (color: string) => void;
+  textColor: string;
+  setTextColor: (color: string) => void;
+  buttonTextColor: string;
+  setButtonTextColor: (color: string) => void;
   showConfirmation: boolean;
   setShowConfirmation: (show: boolean) => void;
   isExitIntent: boolean;
@@ -137,6 +143,8 @@ export default function ModalForm({
         show_confirmation: showConfirmation,
         is_exit_intent: isExitIntent,
         background_color: backgroundColor,
+        text_color: textColor,
+        button_text_color: buttonTextColor,
       })
       .select()
       .single();

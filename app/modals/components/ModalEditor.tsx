@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // Helpers
 import { getDarkerShade, isLightColor } from "@/utils/helpers/colorHelpers";
@@ -20,10 +20,23 @@ export default function ModalEditor() {
   const [isExitIntent, setIsExitIntent] = useState(false);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
   const [backgroundColor, setBackgroundColor] = useState("#ffffff");
+  const [textColor, setTextColor] = useState("#000000");
+  const [buttonTextColor, setButtonTextColor] = useState("#ffffff");
+
+  useEffect(() => {
+    setTextColor(isLightColor(backgroundColor) ? "#000000" : "#ffffff");
+  }, [backgroundColor]);
+
+  useEffect(() => {
+    setButtonTextColor(isLightColor(submitColor) ? "#000000" : "#ffffff");
+  }, [submitColor]);
 
   const handleModalSubmit = () => {
     setRefreshTrigger((prev) => prev + 1);
   };
+
+  console.log("TEXT COLOR:", textColor);
+  console.log("BUTTON TEXT:", buttonTextColor);
 
   return (
     <>
@@ -53,6 +66,8 @@ export default function ModalEditor() {
                 setSubmitColor={setSubmitColor}
                 backgroundColor={backgroundColor}
                 setBackgroundColor={setBackgroundColor}
+                textColor={textColor}
+                buttonTextColor={buttonTextColor}
                 onSubmitSuccess={handleModalSubmit}
               />
             </div>
@@ -87,43 +102,12 @@ export default function ModalEditor() {
                   </button>
                 </div>
                 <div className="sm:flex sm:items-start">
-                  {/* <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
-                    <svg
-                      className="h-6 w-6 text-red-600"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth="1.5"
-                      stroke="currentColor"
-                      aria-hidden="true"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"
-                      />
-                    </svg>
-                  </div> */}
                   <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                    <h3
-                      className="text-base font-semibold leading-6 text-gray-900"
-                      id="modal-title"
-                      style={{
-                        color: isLightColor(backgroundColor) ? "#000000" : "#ffffff",
-                      }}
-                      onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = getDarkerShade(backgroundColor))}
-                      onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = backgroundColor)}
-                    >
+                    <h3 className="text-base font-semibold leading-6 text-gray-900" id="modal-title" style={{ color: textColor }}>
                       {title}
                     </h3>
                     <div className="mt-2">
-                      <p
-                        className="text-sm text-gray-500"
-                        style={{
-                          color: isLightColor(backgroundColor) ? "#000000" : "#ffffff",
-                        }}
-                        onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = getDarkerShade(backgroundColor))}
-                        onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = backgroundColor)}
-                      >
+                      <p className="text-sm text-gray-500" style={{ color: textColor }}>
                         {body}
                       </p>
                     </div>
@@ -135,7 +119,7 @@ export default function ModalEditor() {
                       type="button"
                       style={{
                         backgroundColor: submitColor,
-                        color: isLightColor(submitColor) ? "#000000" : "#ffffff",
+                        color: buttonTextColor,
                       }}
                       className="inline-flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold shadow-sm hover:opacity-80 sm:ml-3 sm:w-auto"
                       onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = getDarkerShade(submitColor))}
