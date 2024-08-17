@@ -67,7 +67,9 @@ export default function ModalEditor() {
                 backgroundColor={backgroundColor}
                 setBackgroundColor={setBackgroundColor}
                 textColor={textColor}
+                setTextColor={setTextColor}
                 buttonTextColor={buttonTextColor}
+                setButtonTextColor={setButtonTextColor}
                 onSubmitSuccess={handleModalSubmit}
               />
             </div>
