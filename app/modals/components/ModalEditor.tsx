@@ -18,6 +18,7 @@ export default function ModalEditor() {
   const [submitColor, setSubmitColor] = useState("#000000");
   const [showConfirmation, setShowConfirmation] = useState(true);
   const [isExitIntent, setIsExitIntent] = useState(false);
+  const [isCentered, setIsCentered] = useState(false);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
   const [backgroundColor, setBackgroundColor] = useState("#ffffff");
   const [textColor, setTextColor] = useState("#000000");
@@ -35,16 +36,13 @@ export default function ModalEditor() {
     setRefreshTrigger((prev) => prev + 1);
   };
 
-  console.log("TEXT COLOR:", textColor);
-  console.log("BUTTON TEXT:", buttonTextColor);
-
   return (
     <>
       {/* Left column */}
       <div className="grid grid-cols-1 gap-4">
         <section aria-labelledby="section-2-title">
           <h2 className="sr-only" id="section-2-title">
-            Section title
+            Tune your modal
           </h2>
           <div className="rounded-lg bg-white shadow">
             <div className="p-6">
@@ -58,6 +56,8 @@ export default function ModalEditor() {
                 setShowConfirmation={setShowConfirmation}
                 isExitIntent={isExitIntent}
                 setIsExitIntent={setIsExitIntent}
+                isCentered={isCentered}
+                setIsCentered={setIsCentered}
                 buttonText={buttonText}
                 setButtonText={setButtonText}
                 buttonLink={buttonLink}
@@ -104,7 +104,7 @@ export default function ModalEditor() {
                   </button>
                 </div>
                 <div className="sm:flex sm:items-start">
-                  <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                  <div className={`mt-3 text-center sm:ml-4 sm:mt-0 ${isCentered ? "sm:text-center" : "sm:text-left"}`}>
                     <h3 className="text-base font-semibold leading-6 text-gray-900" id="modal-title" style={{ color: textColor }}>
                       {title}
                     </h3>
@@ -116,7 +116,7 @@ export default function ModalEditor() {
                   </div>
                 </div>
                 {showConfirmation && (
-                  <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
+                  <div className={`mt-5 sm:mt-4 sm:flex sm:flex-row-reverse ${isCentered ? "justify-center" : ""}`}>
                     <button
                       type="button"
                       style={{

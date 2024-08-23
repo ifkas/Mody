@@ -32,6 +32,8 @@ export default function ModalForm({
   setShowConfirmation,
   isExitIntent,
   setIsExitIntent,
+  isCentered,
+  setIsCentered,
   onSubmitSuccess,
 }: {
   title: string;
@@ -54,6 +56,8 @@ export default function ModalForm({
   setShowConfirmation: (show: boolean) => void;
   isExitIntent: boolean;
   setIsExitIntent: (isExit: boolean) => void;
+  isCentered: boolean;
+  setIsCentered: (isCentered: boolean) => void;
   onSubmitSuccess?: () => void;
 }) {
   const router = useRouter();
@@ -142,6 +146,7 @@ export default function ModalForm({
         button_link: buttonLink,
         show_confirmation: showConfirmation,
         is_exit_intent: isExitIntent,
+        is_modal_centered: isCentered,
         background_color: backgroundColor,
         text_color: textColor,
         button_text_color: buttonTextColor,
@@ -177,7 +182,6 @@ export default function ModalForm({
     <>
       <form onSubmit={handleSubmit}>
         <div>
-          {/* <label htmlFor="title">Title</label> */}
           <Input
             isRequired
             type="text"
@@ -190,7 +194,6 @@ export default function ModalForm({
           />
         </div>
         <div className="mt-4">
-          {/* <label htmlFor="body">Body</label> */}
           <Textarea
             isRequired
             variant="faded"
@@ -206,7 +209,6 @@ export default function ModalForm({
         {showConfirmation && (
           <>
             <div className="my-10">
-              {/* <label htmlFor="buttonText">Action button text</label> */}
               <Input
                 isRequired
                 type="text"
@@ -219,7 +221,6 @@ export default function ModalForm({
               />
             </div>
             <div className="mb-4">
-              {/* <label htmlFor="buttonLink">Action button link (optional)</label> */}
               <Input
                 type="url"
                 variant="faded"
@@ -262,6 +263,13 @@ export default function ModalForm({
               </span>
             </Tooltip>
           </span>
+        </div>
+        <div className="flex items-center space-x-2 my-6">
+          {" "}
+          <Switch isSelected={isCentered} onValueChange={setIsCentered} />
+          <label htmlFor="centeredSwitch" className="text-sm font-medium text-gray-700">
+            Centered Modal
+          </label>
         </div>
         <h3 className="text-lg font-medium text-gray-900 mt-10 mb-4">Styling</h3>
         {showConfirmation && (
@@ -321,7 +329,6 @@ export default function ModalForm({
             {modalContent.title} - {modalContent.body}
           </ModalHeader>
           <ModalBody>
-            {/* <p>{modalContent.body}</p> */}
             {modalContent.scriptTag && (
               <div>
                 <p className="mb-4">Here's your script tag:</p>
