@@ -16,7 +16,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   } = await supabase.auth.getUser();
 
   return (
-    <html lang="en" className="bg-gray-100 text-foreground">
+    <html lang="en" className="bg-gray-100">
       <body className="h-full">
         <main className="min-h-full">{children}</main>
       </body>
